@@ -3,6 +3,8 @@ import goldController from "./goldController.js";
 
 const goldRouter = Router();
 
-goldRouter.get("/gold/price/18", goldController.getGoldPrice_18);
+goldRouter.get("/gold-details", goldController.getGoldDetails);
+goldRouter.get("/sekee-details", goldController.getSekeeDetails);
 
 export default goldRouter;
+    

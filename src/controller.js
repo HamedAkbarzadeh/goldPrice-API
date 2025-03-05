@@ -8,14 +8,20 @@ class controller {
     autoBind(this);
   }
 
-  async initializePuppeteer() {
+  async initializePuppeteer({ url }) {
     const browser = await puppeteer.launch({
       headless: true,
       executablePath: process.env.BROWSER_ADDRESS,
     });
     const page = await browser.newPage();
     await page.setViewport({ width: 1080, height: 1920 });
+    await page.goto(url);
+
     return { browser, page };
+  }
+  async closeBrowserAndPage({ browser, page }) {
+    await page.close();
+    await browser.close();
   }
 
   response({ res, message, data, status = 200 }) {

@@ -1,9 +1,10 @@
 import puppeteer from "puppeteer";
 import controller from "../controller.js";
 class goldController extends controller {
-  async getGoldPrice_18(req, res) {
-    const { page, browser } = await this.initializePuppeteer();
-    await page.goto("https://www.tgju.org/");
+  async getGoldDetails(req, res) {
+    const { page, browser } = await this.initializePuppeteer({
+      url: "https://www.tgju.org/",
+    });
 
     const price = await page.$eval("#l-geram18 .info-price", (element) => {
       return element.innerText;
@@ -12,13 +13,36 @@ class goldController extends controller {
       return element.innerText;
     });
 
-    await page.close();
-    await browser.close();
+    this.closeBrowserAndPage({ browser, page });
     this.response({
       res,
       message: "Success",
       data: {
         name: "طلا ۱۸ عیار",
+        price,
+        change,
+      },
+    });
+  }
+
+  async getSekeeDetails(req, res) {
+    const { page, browser } = await this.initializePuppeteer({
+      url: "https://www.tgju.org/",
+    });
+
+    const price = await page.$eval("#l-sekee .info-price", (element) => {
+      return element.innerText;
+    });
+    const change = await page.$eval("#l-sekee .info-change", (element) => {
+      return element.innerText;
+    });
+
+    this.closeBrowserAndPage({ browser, page });
+    this.response({
+      res,
+      message: "Success",
+      data: {
+        name: "سکه بهار آزادی",
         price,
         change,
       },
